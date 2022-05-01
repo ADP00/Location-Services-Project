@@ -64,7 +64,7 @@
     }
   },
   "Parameters": {
-    "authlocationservicebc8c23d3UserPoolId": {
+    "authlocation1c68492cUserPoolId": {
       "Type": "String"
     },
     "authRoleName": {

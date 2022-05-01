@@ -1,6 +1,6 @@
 export type AmplifyDependentResourcesAttributes = {
     "auth": {
-        "locationservicebc8c23d3": {
+        "location1c68492c": {
             "IdentityPoolId": "string",
             "IdentityPoolName": "string",
             "UserPoolId": "string",
@@ -11,7 +11,7 @@ export type AmplifyDependentResourcesAttributes = {
         }
     },
     "geo": {
-        "map6918838c": {
+        "hsmap": {
             "Name": "string",
             "Style": "string",
             "Region": "string",

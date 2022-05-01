@@ -1,71 +1,30 @@
-import React, {useState, useEffect} from 'react';
-
+import logo from './logo.svg';
 import './App.css';
 
-import Amplify, {Auth} from 'aws-amplify';
-import {Signer} from '@aws-amplify/core';
-import awsconfig from './aws-exports';
+import { createMap } from "maplibre-gl-js-amplify"; 
+import "maplibre-gl/dist/maplibre-gl.css";
+import { useEffect } from 'react';
 
-import ReactMapGL, {
-  NavigationControl,
-} from 'react-map-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
-
-const mapName = 'HeadstarterMap';
-
-Amplify.configure(awsconfig);
-
-const transformRequest = (credentials) => (url, resourceType) => {
-  if (resourceType === "Style" && !url?.includes("://")) {
-    url = `https://maps.geo.${awsconfig.aws_project_region}.amazonaws.com/maps/v0/${url}/style-descriptor`;
-  }
-  if (url?.includes("amazonaws.com")) {
-    return {
-      url: Signer.signUrl(url, {
-        access_key: credentials.accessKeyId,
-        secret_key: credentials.secretAccessKey,
-        session_token: credentials.sessionToken,
-      })
-    };
-  }
-
-  return {url: url || ""};
-};
+async function initializeMap() {
+  const map = await createMap({
+      container: "map", // An HTML Element or HTML element ID to render the map in https://maplibre.org/maplibre-gl-js-docs/api/map/
+      center: [-73.98597609730648, 40.751874635721734], // center in New York
+      zoom: 11,
+  })
+  return map;
+}
 
 function App() {
-  const [credentials, setCredentials] = useState(null);
-
-  const [viewport, setViewport] = useState({
-    longitude: 100,
-    latitude: 50,
-    zoom: 1,
-  });
-
-  useEffect(() => {
-    const fetchCredentials = async () => {
-      setCredentials(await Auth.currentUserCredentials());
-    };
-    fetchCredentials();
+  useEffect( () => {
+      async function init() {
+      const map = await initializeMap();
+    }
+    init();
   }, []);
 
   return (
-    <div>
-      {credentials ? (
-        <ReactMapGL
-          {...viewport}
-          width='100%'
-          height='100vh'
-          transformRequest={transformRequest(credentials)}
-          mapStyle={mapName}
-          onViewportChange={setViewport}
-        >
-          <div style={{position: 'absolute', left: 20, top: 20}}>
-            <NavigationControl showCompass={false}/>
-          </div>
-        </ReactMapGL>
-      ) : (
-        <h1>Map is loading...</h1>
-      )}
+    <div className="App">
+      <div id='map'></div>
     </div>
   );
 }

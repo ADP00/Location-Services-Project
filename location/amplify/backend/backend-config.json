@@ -1,6 +1,6 @@
 {
   "auth": {
-    "locationservicebc8c23d3": {
+    "location1c68492c": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
@@ -26,7 +26,7 @@
     }
   },
   "geo": {
-    "map6918838c": {
+    "hsmap": {
       "isDefault": true,
       "providerPlugin": "awscloudformation",
       "service": "Map",
@@ -35,7 +35,7 @@
       "dependsOn": [
         {
           "category": "auth",
-          "resourceName": "locationservicebc8c23d3",
+          "resourceName": "location1c68492c",
           "attributes": [
             "UserPoolId"
           ]
