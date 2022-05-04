@@ -4,6 +4,7 @@ import '../styles/Map.css'
 import { createMap } from "maplibre-gl-js-amplify"; 
 import "maplibre-gl/dist/maplibre-gl.css";
 import { useEffect } from 'react';
+import maplibregl from 'maplibre-gl'
 
 async function initializeMap(coords) {
     const map = await createMap({
@@ -16,19 +17,18 @@ async function initializeMap(coords) {
   
 function Map() {
     let coords = [-73.98597609730648, 40.751874635721734]; //Manhattan
-    navigator.geolocation.getCurrentPosition(
-        function(position) {
-            coords = [position.coords.latitude, position.coords.longitude];
-            console.log(coords);
-        },
-        function(error) {
-            console.error("Error Code = " + error.code + " - " + error.message);
-        }
-    );
 
     useEffect( () => {
         async function init() {
         const map = await initializeMap(coords);
+        map.addControl(
+            new maplibregl.GeolocateControl({
+                positionOptions: {
+                    enableHighAccuracy: true
+                },
+                trackUserLocation: true
+            })
+        );
       }
       init();
     }, []);
